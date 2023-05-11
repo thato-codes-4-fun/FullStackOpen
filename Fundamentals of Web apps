@@ -1,0 +1,94 @@
+0.4: New note diagram
+
+Problem statement?
+	In the section Loading a page containing JavaScript - 
+	review, the chain of events caused by 
+	opening the page https://studies.cs.helsinki.fi/exampleapp/notes 
+	is depicted as a sequence diagram
+
+ *Sequence Diagram*
+ 	- participanst
+			Browser
+			Server
+			
+	* user enters https://studies.cs.helsinki.fi/exampleapp/notes in the browser
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/notes
+		server activated
+		server --> browser : html document
+		server deactivated
+	
+	* browser requests css file from server
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/main.css
+		server activated
+		server --> browser : css document
+		server deactivated
+	
+	* user enters note and pushes enter
+	* browser request js file from server 
+	Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/main.js
+	server activated
+	server --> browser : js file
+	server deactivated
+	
+	* browser requests json file once 
+	Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/data.json
+	server activated
+	server --> browser : json file
+	server deactivated
+	
+	
+0.5: Single page app diagram
+	* user enters https://studies.cs.helsinki.fi/exampleapp/spa in the browser
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/spa
+		server activated
+		server --> browser : html document
+		server deactivated
+		
+	* browser requests css file from server
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/spa/main.css
+		server activated
+		server --> browser : css document
+		server deactivated
+		
+	* browser requests js file from server
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/spa/spa.js
+		server activated
+		server --> browser : js doc
+		server deactivated
+		
+	* browser requests json file from server
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/spa/data.json
+		server activated
+		server --> browser : json file
+		server deactivated
+	
+	
+0.6: New note in Single page app diagram
+	* user enters note and pushes submit
+	browser --server : https://studies.cs.helsinki.fi/exampleapp/spa
+	server activated
+	server --> browser https://studies.cs.helsinki.fi/exampleapp/spa/new_note_spa
+	server deactivated
+	
+	* Instead of sending back another html file to the browser
+	* some of that work is deligated to the browser side
+	* this is done by using js to manipulate the DOM 
+	* appending the new note to the notes list
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 
+	
+	
+	
+
+
