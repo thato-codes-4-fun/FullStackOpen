@@ -1,0 +1,50 @@
+0.4: New note diagram
+
+Problem statement?
+	In the section Loading a page containing JavaScript - 
+	review, the chain of events caused by 
+	opening the page https://studies.cs.helsinki.fi/exampleapp/notes 
+	is depicted as a sequence diagram
+
+ *Sequence Diagram*
+ 	- participanst
+			Browser
+			Server
+			
+	* user enters https://studies.cs.helsinki.fi/exampleapp/notes in the browser
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/notes
+		server activated
+		server --> browser : html document
+		server deactivated
+	
+	* browser requests css file from server
+		Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/main.css
+		server activated
+		server --> browser : css document
+		server deactivated
+	
+	* user enters note and pushes enter
+	* browser request js file from server 
+	Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/main.js
+	server activated
+	server --> browser : js file
+	server deactivated
+	
+	* browser requests json file once 
+	Browser --> Server : https://studies.cs.helsinki.fi/exampleapp/data.json
+	server activated
+	server --> browser : json file
+	server deactivated
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
