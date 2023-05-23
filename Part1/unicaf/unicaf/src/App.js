@@ -12,7 +12,6 @@ const App = () => {
     setTotal(total+1)
 
   }
-
   const handleNuetral = () => {
     setNeutral(neutral+1);
     setTotal(total+1)
@@ -24,21 +23,12 @@ const App = () => {
   }
 
   const getPositive=()=> {
-    if (total === 0){
-      return 0;
-    }
     return (good/total)*100;
   }
 
   const getAverage = ()=> {
-    if (total === 0) {
-      return 0;
-    }
     return (good - bad) / total
   }
-
-
-
   return (
     <div>
       <Header />
@@ -46,14 +36,25 @@ const App = () => {
       <Button handlepress={handleNuetral} string={'neutral'} />
       <Button handlepress={handleBad} string={'bad'}/>
       <h2>Statistics</h2>
-
-      <p>Good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-
-      <p>all {total}</p>
-      <p>average {getAverage()}</p>
-      <p>positive {getPositive()}  %</p>
+      {
+      total ===0 ? <p>No feedback given</p> :
+      <table>
+        <tbody>
+          <tr>
+            <td><StatisticLine text={'good'} value={good}/></td>
+          </tr>
+          <tr>
+            <td><StatisticLine text={'neutral'} value={neutral}/></td>
+          </tr>
+          <tr>
+            <td><StatisticLine text={'bad'} value={bad}/></td>
+          </tr>
+          <tr>
+            <td><Statistics total={total} getAverage={getAverage} getPositive={getPositive}/></td>
+          </tr>
+        </tbody>
+      </table>
+      }
     </div>
   )
 }
@@ -62,6 +63,21 @@ const Header = ()=> <h1>Give Feedback</h1>
 
 const Button = ({handlepress, string})=> {
   return <button onClick={handlepress}>{string}</button>
+}
+
+const Statistics = ({total, getAverage, getPositive})=> {
+  return (
+    <>
+      <p>all {total}</p>
+      <p>average {getAverage()}</p>
+      <p>positive {getPositive()}  %</p></>
+  )
+}
+
+const StatisticLine = ({text, value})=> {
+  return (
+    <p>{text} {value}</p>
+  )
 }
 
 
