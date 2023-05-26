@@ -11,14 +11,33 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const checkName = (persons, newName) => {
+    let isPresent = false
+    for (let i = 0; i < persons.length; i++){
+      if (persons[i]['name']===newName){
+        isPresent = true;
+      }
+    }
+    console.log(persons.includes(person=>person.name===newName), )
+    return isPresent;
+  }
+
   const submitName = (event)=> {
     event.preventDefault();
     console.log('->',newName)
-    const person = {
-      name: newName,
+    const isPresent = checkName(persons, newName);
+    console.log(isPresent)
+    if (!isPresent){
+      const person = {
+        name: newName,
+      }
+      setPersons(persons.concat(person))
+      setNewName('');
     }
-    setPersons(persons.concat(person))
-    setNewName('');
+    else {
+      window.alert(`${newName} is aready added to phonebook`)
+    }
+
   }
 
   return (
