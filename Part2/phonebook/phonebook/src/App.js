@@ -1,15 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Filter  from './phonebook/filter'
 import PersonForm  from './phonebook/personsform'
 import Persons  from './phonebook/persons'
+import axios from 'axios'
+import personApi from './services/api'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [ newName, setNewName ]  = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ search, setSearch ] = useState('')
@@ -19,6 +16,17 @@ const App = () => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
+
+  const hook = ()=> {
+    console.log('effect')
+    personApi
+    .getAll()
+    .then(initPersons=> {
+      setPersons(initPersons)
+    })
+  }
+
+  useEffect(hook, [])
 
   const handleNumberChange = (event) => {
     console.log('the number is ', event.target.value)
@@ -38,16 +46,20 @@ const App = () => {
 
   const submitName = (event)=> {
     event.preventDefault();
-    console.log('->',newName)
     const isPresent = checkName(persons, newName);
-    console.log(isPresent)
     if (!isPresent){
       const person = {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(person))
-      setNewName('');
+      personApi
+      .addToPhoneBook(person)
+      .then(data=> {
+        setPersons(persons.concat(data))
+        setNewName('')
+        setNewNumber('')
+      })
+      
     }
     else {
       window.alert(`${newName} is aready added to phonebook`)
