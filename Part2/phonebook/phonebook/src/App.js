@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import Filter  from './phonebook/filter'
 import PersonForm  from './phonebook/personsform'
 import Persons  from './phonebook/persons'
-import axios from 'axios'
 import personApi from './services/api'
 
 const App = () => {
@@ -72,8 +71,20 @@ const App = () => {
     setSearch(event.target.value)
     let searchItem = persons.filter(person => person.name.toLowerCase().includes(event.target.value))
     setSearchList(searchItem)
-    
   }
+
+  const handleDelete = (id,name) => {
+    const  shouldDelete = window.confirm(`delete with ${name} ?`)
+    if (shouldDelete){
+      personApi
+      .deletePerson(id)
+      .then(()=> {
+        hook()
+      })
+    }
+  }
+
+
 
   return (
     <div>
@@ -90,7 +101,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons searchList={searchList} persons={persons}/>
+      <Persons searchList={searchList} persons={persons} handleDelete={handleDelete}/>
     </div>
   )
 }
