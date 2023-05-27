@@ -12,16 +12,17 @@ const App = () => {
   const [ searchList , setSearchList ] = useState([])
 
   const handleNameChange = (event)=> {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const hook = ()=> {
-    console.log('effect')
     personApi
     .getAll()
     .then(initPersons=> {
       setPersons(initPersons)
+    })
+    .catch(e=> {
+      window.alert('failed to retrieve contacts please refresh page')
     })
   }
 
@@ -58,6 +59,9 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      .catch(e=> {
+        window.alert(`failed to submit name`)
+      })
       
     }
     else {
@@ -69,6 +73,9 @@ const App = () => {
         .updateNumber(person.id, updatedPerson)
         .then(data=>{
           hook()
+        })
+        .catch(e => {
+          window.alert(`failed to update nume`)
         })
       }
       
