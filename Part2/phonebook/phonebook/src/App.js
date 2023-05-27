@@ -61,7 +61,17 @@ const App = () => {
       
     }
     else {
-      window.alert(`${newName} is aready added to phonebook`)
+      const shouldUpdate = window.confirm(`would you like to change ${newName} to new ${newNumber}`)
+      if (shouldUpdate){
+        const person = persons.find(p => p.name === newName)
+        const updatedPerson = {...person, number: newNumber}
+        personApi
+        .updateNumber(person.id, updatedPerson)
+        .then(data=>{
+          hook()
+        })
+      }
+      
     }
 
   }

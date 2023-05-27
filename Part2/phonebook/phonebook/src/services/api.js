@@ -19,8 +19,15 @@ const deletePerson = (id) => {
     return request.then(res=> res.data)
 }
 
+const updateNumber = (id,updatedObj) => {
+    console.log('number updating...')
+    const updateUrl = baseUrl + '/' + id
+    const request = axios.put(updateUrl, updatedObj)
+    return request.then(res => res.data)
+}
 
 
 
-export default {getAll, addToPhoneBook, deletePerson}
+
+export default {getAll, addToPhoneBook, deletePerson, updateNumber}
 
