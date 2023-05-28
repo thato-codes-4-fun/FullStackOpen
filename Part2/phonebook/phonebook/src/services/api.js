@@ -16,6 +16,7 @@ const deletePerson = (id) => {
     const deleteUrl = baseUrl + '/' + id
     console.log(deleteUrl)
     const request = axios.delete(deleteUrl)
+    console.log('response, ', request)
     return request.then(res=> res.data)
 }
 

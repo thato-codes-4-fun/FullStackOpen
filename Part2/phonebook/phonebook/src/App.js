@@ -3,6 +3,10 @@ import Filter  from './phonebook/filter'
 import PersonForm  from './phonebook/personsform'
 import Persons  from './phonebook/persons'
 import personApi from './services/api'
+import './index.css'
+import SuccessNotification from './components/successNotification'
+import ErrorNotification from './components/errorNotification'
+
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,6 +14,8 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ search, setSearch ] = useState('')
   const [ searchList , setSearchList ] = useState([])
+  const [ errorMsg , setErrorMsg ] = useState(null);
+  const [ successMsg , setSuccessMsg ] = useState(null);
 
   const handleNameChange = (event)=> {
     setNewName(event.target.value)
@@ -58,9 +64,13 @@ const App = () => {
         setPersons(persons.concat(data))
         setNewName('')
         setNewNumber('')
+        setSuccessMsg(`User ${newName} has been added`)
+        setTimeout(()=>setSuccessMsg(null), 2000)
+        
       })
       .catch(e=> {
         window.alert(`failed to submit name`)
+
       })
       
     }
@@ -73,6 +83,8 @@ const App = () => {
         .updateNumber(person.id, updatedPerson)
         .then(data=>{
           hook()
+          setSuccessMsg(`user ${person.name} has updated numer`)
+          setTimeout(()=>setSuccessMsg(null),2000)
         })
         .catch(e => {
           window.alert(`failed to update nume`)
@@ -97,6 +109,14 @@ const App = () => {
       .deletePerson(id)
       .then(()=> {
         hook()
+        setSuccessMsg(`user ${name} deleted successfully`)
+        setTimeout(()=>setSuccessMsg(null),3000)
+      })
+      .catch(e => {
+        console.log('user not found')
+        setErrorMsg('user already deleted')
+        setTimeout(()=> setErrorMsg(null),5000)
+        
       })
     }
   }
@@ -106,7 +126,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <ErrorNotification message={errorMsg}/>
+      <SuccessNotification message={successMsg} />
       <Filter search={search} handleSearch={handleSearch}/>
       <h3>Add a new</h3>
       <PersonForm 
@@ -122,6 +143,11 @@ const App = () => {
     </div>
   )
 }
+
+
+
+
+
 
 
 
