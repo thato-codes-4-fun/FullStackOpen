@@ -9,5 +9,11 @@ const getCountries = ()=> {
     
   }
 
+const getCountry = (country)=> {
+  const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/name/' + `${country}`
+  const request = axios.get(baseUrl)
+  return request.then(country=> country)
+}
 
-export default {getCountries}
+
+export default { getCountries, getCountry}

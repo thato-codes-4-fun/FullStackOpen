@@ -1,5 +1,11 @@
 
-const ViewCountries = ({countryList, search,})=> {
+const ViewCountries = ({countryList, search, getCountry, country})=> {
+    const handleDetailPress = (countryName)=> {
+        console.log('button clicked', countryName)
+        getCountry(countryName)
+    }
+
+
     if (search === ''){
       return 
     }
@@ -16,28 +22,44 @@ const ViewCountries = ({countryList, search,})=> {
       else if (filteredCountry.length === 1){
         const extractCountry = filteredCountry[0]
         return (
-            <>
-                <h1>{extractCountry['name']['common']}</h1>
-                <p>capital {extractCountry['capital'][0]}</p>
-                <p>area {extractCountry['area']}</p>
-                <h2>languages</h2>
-                <ul>
-                    <LanguageList languageObj={extractCountry['languages']}/>
-                </ul>
-                <p style={{fontSize: 100}}>{extractCountry['flag']}</p>
-            </>
+           <DetailCountryView extractCountry={extractCountry} />
         )
+
       }
+      else if (country !== null) {
+          return <DetailCountryView extractCountry={country}/>  
+      } 
       return (
         <>
           <h2>Country List</h2>
           {
-            filteredCountry.map(country => <p key={country['name']['common']}>{country['name']['common']}</p>)
+            filteredCountry.map(country => {
+                return (
+                    <div key={country['name']['common']}>
+                        <p key={country['name']['common']}>{country['name']['common']} <button  onClick={()=>handleDetailPress(country['name']['common'])}>more info</button></p>
+                    </div>
+                )
+            })
           }
         </>
       )
     }
   }
+
+const DetailCountryView = ({extractCountry})=> {
+    return (
+        <>
+        <h1>{extractCountry['name']['common']}</h1>
+        <p>capital {extractCountry['capital'][0]}</p>
+        <p>area {extractCountry['area']}</p>
+        <h2>languages</h2>
+        <ul>
+            <LanguageList languageObj={extractCountry['languages']}/>
+        </ul>
+        <p style={{fontSize: 100}}>{extractCountry['flag']}</p>
+    </>
+    )
+}
 
 const LanguageList = ({languageObj})=> {
     let languages = []

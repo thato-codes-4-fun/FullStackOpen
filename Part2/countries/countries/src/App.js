@@ -10,10 +10,12 @@ import ViewCountries from './components/countriesView';
 function App() {
   const [ search, setSearch ] = useState('')
   const [ countryList, setCountryList ] = useState([])
+  const [country, setCountry] = useState(null)
 
 
   const handleSearch =(event)=> {
     setSearch(event.target.value)
+    setCountry(null)
   }
 
   const getCountriesHook = ()=> {
@@ -26,6 +28,16 @@ function App() {
     .catch(e=>console.log('error fetching data!!', e.message))
   }
 
+  const getCountry = (countryName)=> {
+    countriesApi
+    .getCountry(countryName)
+    .then(item => {
+      console.log(item.data)
+      setCountry(item.data)
+    })
+    .catch(e=>console.log('error, ', e.message))
+  }
+
   useEffect(getCountriesHook, [])
 
 
@@ -36,6 +48,8 @@ function App() {
       <ViewCountries 
         countryList={countryList} 
         search={search}
+        getCountry={getCountry}
+        country={country}
       />
     </div>
   );
