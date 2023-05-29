@@ -1,10 +1,9 @@
 
 const ViewCountries = ({countryList, search, getCountry, country})=> {
+
     const handleDetailPress = (countryName)=> {
-        console.log('button clicked', countryName)
         getCountry(countryName)
     }
-
 
     if (search === ''){
       return 

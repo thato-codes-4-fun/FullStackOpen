@@ -1,4 +1,3 @@
-
 import './App.css';
 import { useState , useEffect} from 'react';
 import countriesApi from './services/countriesApi';
@@ -32,7 +31,6 @@ function App() {
     countriesApi
     .getCountry(countryName)
     .then(item => {
-      console.log(item.data)
       setCountry(item.data)
     })
     .catch(e=>console.log('error, ', e.message))
