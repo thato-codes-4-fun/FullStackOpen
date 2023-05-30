@@ -50,6 +50,17 @@ app.get('/api/persons/:id', (req, res)=> {
     return  res.send(person)
 })
 
+app.delete('/api/persons/:id', (req, res)=> {
+    const searchId = Number(req.params.id)
+    const personIndex =  data.findIndex(person=> person.id === searchId)
+    console.log(personIndex)
+    if (personIndex <= -1){
+        return res.status(404).send(`person with id ${searchId} not found`)
+    }
+    data.splice(personIndex, 1)
+    return res.json(data)
+})
+
 
 app.listen(3001, ()=> {
     console.log('app is listening on port 3001')
