@@ -32,6 +32,13 @@ app.get('/api/persons', (req, res)=> {
     res.json(data)
 })
 
+app.get('/info', (req, res)=> {
+    const phonebookCount = data.length
+    const today = new Date().toUTCString()
+    const stringData = `Phonebook has info for ${phonebookCount} people <br/><br/> ${today}`
+    res.send(stringData)
+})
+
 
 app.listen(3001, ()=> {
     console.log('app is listening on port 3001')
