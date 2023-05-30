@@ -39,6 +39,17 @@ app.get('/info', (req, res)=> {
     res.send(stringData)
 })
 
+app.get('/api/persons/:id', (req, res)=> {
+    console.log('searching...')
+    const searchId = Number(req.params.id)
+    const person =  data.find(person=> person.id === searchId)
+    if (!person){
+        return res.status(404).send(`person with id ${searchId} not found`)
+    }
+    console.log(person)
+    return  res.send(person)
+})
+
 
 app.listen(3001, ()=> {
     console.log('app is listening on port 3001')
