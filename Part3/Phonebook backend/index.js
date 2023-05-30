@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 const data = [
     { 
@@ -58,7 +59,25 @@ app.delete('/api/persons/:id', (req, res)=> {
         return res.status(404).send(`person with id ${searchId} not found`)
     }
     data.splice(personIndex, 1)
-    return res.json(data)
+    return res.status(204).end()
+})
+
+app.post('/api/persons', (req,res)=> {
+    let id = getRandomInt()
+    const personData = req.body;
+    if (!personData.name || personData.name === ''){
+        console.log('no name')
+        return res.status(404).json('name not provided')
+    }
+    const presentInData = data.find(person=> person.name.toLowerCase() === personData.name.toLowerCase())
+    if (presentInData){
+        return res.status(503).json({ error: 'name must be unique' })
+    }
+    if(!personData.number || personData.number === ''){
+        return res.status(404).send('number not provided')
+    }
+    data.push({...personData, id: id})
+    res.send(data)
 })
 
 
@@ -66,6 +85,10 @@ app.listen(3001, ()=> {
     console.log('app is listening on port 3001')
 })
 
+
+function getRandomInt() {
+    return Math.floor(Math.random() * 79999);
+  }
 
 
 
