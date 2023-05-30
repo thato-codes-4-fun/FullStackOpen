@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react"
+import weatherApi from "../services/weatherApi"
+
 
 const ViewCountries = ({countryList, search, getCountry, country})=> {
 
@@ -46,6 +49,22 @@ const ViewCountries = ({countryList, search, getCountry, country})=> {
   }
 
 const DetailCountryView = ({extractCountry})=> {
+    const [weather , setWeather ] = useState(null)
+    const [tempWeather , setTempWeather ] = useState(null)
+    const [windSpeed , setWindSpeed] = useState(null)
+
+    let lat = extractCountry['latlng'][0]
+    let lng = extractCountry['latlng'][1]
+    const hook = ()=> {
+        weatherApi.getWeather(lat, lng)
+        .then((weatherData)=> {
+           setTempWeather(weatherData.data['main'])
+           setWeather(weatherData.data['weather'])
+           setWindSpeed(weatherData.data['wind']['speed'])
+        })
+    }
+    useEffect(hook, [])
+    if (weather !== null && tempWeather !== null && windSpeed !== null)
     return (
         <>
         <h1>{extractCountry['name']['common']}</h1>
@@ -56,6 +75,11 @@ const DetailCountryView = ({extractCountry})=> {
             <LanguageList languageObj={extractCountry['languages']}/>
         </ul>
         <p style={{fontSize: 100}}>{extractCountry['flag']}</p>
+        <h3>Weather in {extractCountry['name']['common']}</h3>
+        <p>Temperature {tempWeather['temp_max']} celsius</p>
+        <img src={`https://openweathermap.org/img/wn/${weather[0]['icon']}@2x.png`}/>
+        
+        <p>wind {windSpeed} ms</p>
     </>
     )
 }

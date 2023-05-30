@@ -4,12 +4,14 @@ import countriesApi from './services/countriesApi';
 import Heading from './components/heading';
 import SearchBar from './components/searchBar';
 import ViewCountries from './components/countriesView';
+import weatherApi from './services/weatherApi';
 
 
 function App() {
   const [ search, setSearch ] = useState('')
   const [ countryList, setCountryList ] = useState([])
   const [country, setCountry] = useState(null)
+  
 
 
   const handleSearch =(event)=> {
