@@ -1,6 +1,18 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 app.use(express.json())
+
+// Create a custom token for logging the response body as an object
+morgan.token('body', (req, res) => {
+    return JSON.stringify(req.body);
+  });
+  
+  // Define the custom logging format
+  const logFormat = ':method :url :status :response-time ms :body';
+  
+  // Log the request and response details using the custom format
+  app.use(morgan(logFormat));
 
 const data = [
     { 
@@ -37,7 +49,7 @@ app.get('/info', (req, res)=> {
     const phonebookCount = data.length
     const today = new Date().toUTCString()
     const stringData = `Phonebook has info for ${phonebookCount} people <br/><br/> ${today}`
-    res.send(stringData)
+    res.json(stringData)
 })
 
 app.get('/api/persons/:id', (req, res)=> {
@@ -47,8 +59,7 @@ app.get('/api/persons/:id', (req, res)=> {
     if (!person){
         return res.status(404).send(`person with id ${searchId} not found`)
     }
-    console.log(person)
-    return  res.send(person)
+    return  res.json(person)
 })
 
 app.delete('/api/persons/:id', (req, res)=> {
@@ -92,4 +103,10 @@ function getRandomInt() {
 
 
 
+  const unkownRouteHandler = (req,res, next)=> {
+    res.status(404).send('route not found...')
+  }
+  
+  
+  app.use(unkownRouteHandler)
 
