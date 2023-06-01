@@ -61,12 +61,11 @@ const App = () => {
       personApi
       .addToPhoneBook(person)
       .then(data=> {
-        setPersons(persons.concat(data))
         setNewName('')
         setNewNumber('')
         setSuccessMsg(`User ${newName} has been added`)
         setTimeout(()=>setSuccessMsg(null), 2000)
-        
+        hook()
       })
       .catch(e=> {
         window.alert(`failed to submit name`)
