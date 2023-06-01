@@ -97,7 +97,7 @@ const App = () => {
   const handleSearch= (event) => {
     console.log(event.target.value)
     setSearch(event.target.value)
-    let searchItem = persons.filter(person => person.name.toLowerCase().includes(event.target.value))
+    let searchItem = persons.filter(person => person.name.toLowerCase().includes(event.target.value).toLowerCase())
     setSearchList(searchItem)
   }
 
