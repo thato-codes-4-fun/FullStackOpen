@@ -1,7 +1,9 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 // Create a custom token for logging the response body as an object
 morgan.token('body', (req, res) => {
@@ -27,7 +29,7 @@ const data = [
     },
     { 
       "id": 3,
-      "name": "Dan Abramov", 
+      "name": "Dan Abramovsss", 
       "number": "12-43-234345"
     },
     { 
@@ -88,6 +90,7 @@ app.post('/api/persons', (req,res)=> {
         return res.status(404).send('number not provided')
     }
     data.push({...personData, id: id})
+    console.log(data)
     res.send(data)
 })
 
