@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(express.static('build'))
 
 // Create a custom token for logging the response body as an object
 morgan.token('body', (req, res) => {
