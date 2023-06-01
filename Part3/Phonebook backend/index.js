@@ -16,6 +16,8 @@ morgan.token('body', (req, res) => {
   // Log the request and response details using the custom format
   app.use(morgan(logFormat));
 
+  const PORT = process.env.PORT || 3001
+
 const data = [
     { 
       "id": 1,
@@ -95,8 +97,8 @@ app.post('/api/persons', (req,res)=> {
 })
 
 
-app.listen(3001, ()=> {
-    console.log('app is listening on port 3001')
+app.listen(PORT, ()=> {
+    console.log(`app is listening on port ${PORT}`)
 })
 
 
