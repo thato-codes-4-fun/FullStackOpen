@@ -7,6 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
+var mongoose = require('mongoose');
 
 // Create a custom token for logging the response body as an object
 morgan.token('body', (req, res) => {
@@ -45,6 +46,7 @@ const data = [
 ]
 
 app.get('/', (req, res)=> {
+    console.log('loading...')
     res.send('Hello world')
 })
 
@@ -71,14 +73,19 @@ app.get('/api/persons/:id', (req, res)=> {
 })
 
 app.delete('/api/persons/:id', (req, res)=> {
-    const searchId = Number(req.params.id)
-    const personIndex =  data.findIndex(person=> person.id === searchId)
-    console.log(personIndex)
-    if (personIndex <= -1){
-        return res.status(404).send(`person with id ${searchId} not found`)
-    }
-    data.splice(personIndex, 1)
-    return res.status(204).end()
+    const searchId = req.params.id
+    console.log(searchId)
+    // const id = new mongoose.Types.ObjectId(searchId);
+    Person.findByIdAndRemove(searchId)
+    .then(result=> {
+        console.log(result)
+        console.log('deleting...')
+        Person.find({})
+        .then(people=> res.json(people));
+    })
+    .catch(e=> {
+        console.log('we got some error: ',e.message)
+    })
 })
 
 app.post('/api/persons', (req,res)=> {
@@ -111,10 +118,6 @@ app.listen(PORT, ()=> {
     console.log(`app is listening on port ${PORT}`)
 })
 
-
-function getRandomInt() {
-    return Math.floor(Math.random() * 79999);
-  }
 
 
 
