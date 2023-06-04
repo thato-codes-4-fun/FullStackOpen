@@ -56,20 +56,27 @@ app.get('/api/persons', (req, res)=> {
 })
 
 app.get('/info', (req, res)=> {
-    const phonebookCount = data.length
-    const today = new Date().toUTCString()
-    const stringData = `Phonebook has info for ${phonebookCount} people <br/><br/> ${today}`
-    res.json(stringData)
+    Person.find()
+    .then(data=>{
+        console.log(data.length)
+        const phonebookCount = data.length
+        const today = new Date().toUTCString()
+        const stringData = `Phonebook has info for ${phonebookCount} people <br/><br/> ${today}`
+        return res.status(200).send(stringData)
+    })
 })
 
 app.get('/api/persons/:id', (req, res)=> {
     console.log('searching...')
-    const searchId = Number(req.params.id)
-    const person =  data.find(person=> person.id === searchId)
-    if (!person){
-        return res.status(404).send(`person with id ${searchId} not found`)
-    }
-    return  res.json(person)
+    const searchId = req.params.id
+    Person.findById(searchId)
+    .then(person => {
+        return res.json(person)
+    })
+    .catch(e=> {
+        console.log(e.message)
+        return res.status(404).send(`cant find person with id ${searchId}`)
+    })
 })
 
 app.delete('/api/persons/:id', (req, res, next)=> {
