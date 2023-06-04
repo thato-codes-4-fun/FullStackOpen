@@ -1,3 +1,5 @@
+require('dotenv').config()
+const Person = require('./models/person')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -47,7 +49,8 @@ app.get('/', (req, res)=> {
 })
 
 app.get('/api/persons', (req, res)=> {
-    res.json(data)
+    Person.find({})
+    .then(data=> res.json(data));
 })
 
 app.get('/info', (req, res)=> {
@@ -79,22 +82,28 @@ app.delete('/api/persons/:id', (req, res)=> {
 })
 
 app.post('/api/persons', (req,res)=> {
-    let id = getRandomInt()
     const personData = req.body;
     if (!personData.name || personData.name === ''){
         console.log('no name')
         return res.status(404).json('name not provided')
     }
-    const presentInData = data.find(person=> person.name.toLowerCase() === personData.name.toLowerCase())
-    if (presentInData){
-        return res.status(503).json({ error: 'name must be unique' })
-    }
+    // const presentInData = data.find(person=> person.name.toLowerCase() === personData.name.toLowerCase())
+    // if (presentInData){
+    //     return res.status(503).json({ error: 'name must be unique' })
+    // }
     if(!personData.number || personData.number === ''){
         return res.status(404).send('number not provided')
     }
-    data.push({...personData, id: id})
-    console.log(data)
-    res.send(data)
+    const person = new Person({
+        name: personData.name,
+        number: personData.number
+    })
+    person.save().then(result=> {
+        console.log(`person added to db`)
+        Person.find({})
+        .then(data=> res.json(data));
+    })
+
 })
 
 
