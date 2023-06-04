@@ -72,20 +72,14 @@ app.get('/api/persons/:id', (req, res)=> {
     return  res.json(person)
 })
 
-app.delete('/api/persons/:id', (req, res)=> {
+app.delete('/api/persons/:id', (req, res, next)=> {
     const searchId = req.params.id
-    console.log(searchId)
-    // const id = new mongoose.Types.ObjectId(searchId);
     Person.findByIdAndRemove(searchId)
     .then(result=> {
-        console.log(result)
-        console.log('deleting...')
         Person.find({})
-        .then(people=> res.json(people));
+        .then(people=> res.status(204).json(people));
     })
-    .catch(e=> {
-        console.log('we got some error: ',e.message)
-    })
+    .catch(e => next(e))
 })
 
 app.post('/api/persons', (req,res)=> {
@@ -119,12 +113,16 @@ app.listen(PORT, ()=> {
 })
 
 
+const errHandler = (err ,req, res, next) => {
+    console.log(err.message)
+    res.status(500).send(err.message)
+}
 
 
-  const unkownRouteHandler = (req,res, next)=> {
+const unkownRouteHandler = (req,res, next)=> {
     res.status(404).send('route not found...')
   }
   
   
-  app.use(unkownRouteHandler)
-
+app.use(unkownRouteHandler)
+app.use(errHandler)
