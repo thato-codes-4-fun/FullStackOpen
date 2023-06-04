@@ -88,10 +88,6 @@ app.post('/api/persons', (req,res)=> {
         console.log('no name')
         return res.status(404).json('name not provided')
     }
-    // const presentInData = data.find(person=> person.name.toLowerCase() === personData.name.toLowerCase())
-    // if (presentInData){
-    //     return res.status(503).json({ error: 'name must be unique' })
-    // }
     if(!personData.number || personData.number === ''){
         return res.status(404).send('number not provided')
     }
@@ -104,9 +100,17 @@ app.post('/api/persons', (req,res)=> {
         Person.find({})
         .then(data=> res.json(data));
     })
-
 })
 
+app.put('/api/persons/:id',(req, res)=> {
+    console.log('we have landed')
+    const id = req.params.id
+    const body = req.body
+    Person.findByIdAndUpdate(id, body, {new: true})
+    .then(updatedPerson => {
+        return res.json(updatedPerson)
+    })
+})
 
 app.listen(PORT, ()=> {
     console.log(`app is listening on port ${PORT}`)
