@@ -41,12 +41,14 @@ const App = () => {
 
   const checkName = (persons, newName) => {
     let isPresent = false
+    console.log('checking user....')
     for (let i = 0; i < persons.length; i++){
       if (persons[i]['name']===newName){
         isPresent = true;
         break;
       }
     }
+    console.log('is user present: ', isPresent)
     return isPresent;
   }
 
@@ -68,8 +70,9 @@ const App = () => {
         hook()
       })
       .catch(e=> {
-        window.alert(`failed to submit name`)
-
+        console.log(e.response.data.error)
+        setErrorMsg(`${e.response.data.error}`)
+        setTimeout(()=> setErrorMsg(null), 2000)
       })
       
     }
@@ -86,7 +89,9 @@ const App = () => {
           setTimeout(()=>setSuccessMsg(null),2000)
         })
         .catch(e => {
-          window.alert(`failed to update nume`)
+          console.log(e.response.data.error)
+          setErrorMsg(`${e.response.data.error}`)
+          setTimeout(()=>setErrorMsg(null),2000)
         })
       }
       
