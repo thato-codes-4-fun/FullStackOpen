@@ -6,8 +6,7 @@ const cors = require('cors')
 const app = express()
 app.use(express.json())
 app.use(cors())
-app.use(express.static('build'))
-var mongoose = require('mongoose');
+app.use(express.static('build'))    
 
 // Create a custom token for logging the response body as an object
 morgan.token('body', (req, res) => {
@@ -22,28 +21,6 @@ morgan.token('body', (req, res) => {
 
   const PORT = process.env.PORT || 3001
 
-const data = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramovsss", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
 
 app.get('/', (req, res)=> {
     console.log('loading...')
@@ -89,7 +66,7 @@ app.delete('/api/persons/:id', (req, res, next)=> {
     .catch(e => next(e))
 })
 
-app.post('/api/persons', (req,res)=> {
+app.post('/api/persons', (req,res, next)=> {
     const personData = req.body;
     if (!personData.name || personData.name === ''){
         console.log('no name')
@@ -106,6 +83,10 @@ app.post('/api/persons', (req,res)=> {
         console.log(`person added to db`)
         Person.find({})
         .then(data=> res.json(data));
+    })
+    .catch(e => {
+        console.log('Error posting!! ',e.message)
+        return next(e)
     })
 })
 
@@ -125,7 +106,13 @@ app.listen(PORT, ()=> {
 
 
 const errHandler = (err ,req, res, next) => {
-    console.log(err.message)
+    console.error(err.message)
+    if(err.name === 'CastError'){
+         return response.status(400).send({ error: 'malformatted id' })
+    }
+    else if (err.name === 'ValidationError'){
+        return res.status(400).json({error: err.message})
+    }
     res.status(500).send(err.message)
 }
 
