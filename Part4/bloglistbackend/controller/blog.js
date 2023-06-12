@@ -1,6 +1,7 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
+const requestLogger = require('../utils/middleware')
 
 blogRouter.get('/', (req, res)=> {
     logger.info('getting all blogs')

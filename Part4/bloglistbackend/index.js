@@ -1,6 +1,9 @@
 const config = require('./utils/config')
 const app = require('./app')
 const logger = require('./utils/logger')
+const { unknownEndpoint, requestLogger } = require('./utils/middleware')
+app.use(requestLogger)
+app.use(unknownEndpoint)
 
 
 const port = config.PORT || 3003

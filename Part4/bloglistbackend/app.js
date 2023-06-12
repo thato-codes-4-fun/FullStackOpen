@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const unknownEndpoint = require('./utils/middleware')
 
 const logger = require('./utils/logger')
 const config = require('./utils/config')
@@ -9,6 +10,8 @@ app.use(cors())
 app.use(express.json())
 const blogRouter = require('./controller/blog')
 app.use('/api/blogs', blogRouter)
+
+
 
 
 
