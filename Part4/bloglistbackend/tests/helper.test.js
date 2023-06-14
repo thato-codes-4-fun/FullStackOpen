@@ -92,6 +92,21 @@ describe('testing for max likes', ()=> {
         let {author, title, likes} = blogs[2]
         expect(result).toEqual({author, title, likes})
     })
+
+    test('if no list is given return 0', ()=> {
+        result = listHelper.favoriteBlog([])
+        expect(result).toBe(0)
+    })
+})
+
+describe('testing for mostBlogs', ()=> {
+    test('most blogs test', ()=> {
+        result = listHelper.mostBlogs(blogs)
+        expect(result).toEqual({
+            author: "Robert C. Martin",
+            blogs: 3
+          })
+    })
 })
 
 
