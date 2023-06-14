@@ -101,12 +101,29 @@ describe('testing for max likes', ()=> {
 
 describe('testing for mostBlogs', ()=> {
     test('most blogs test', ()=> {
-        result = listHelper.mostBlogs(blogs)
+       let  result = listHelper.mostBlogs(blogs)
         expect(result).toEqual({
             author: "Robert C. Martin",
             blogs: 3
           })
     })
 })
+
+
+describe('testing getting most likes',()=> {
+    test('most likes ', ()=>{
+        let result = listHelper.mostLikes(blogs)
+        expect(result).toEqual(
+            {
+                author: "Edsger W. Dijkstra",
+                likes: 17
+              }
+        )
+    })
+})
+
+
+
+
 
 
