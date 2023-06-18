@@ -3,7 +3,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-// mongoose.set("bufferTimeoutMS", 30000)
+
 
 const initialBlogs = [
     {
@@ -126,6 +126,10 @@ describe('bad blog post missing data', ()=> {
         expect(res.status).toEqual(400)
     })
 
+})
+
+describe('deleting a blog plost', ()=> {
+    
 })
 
 
