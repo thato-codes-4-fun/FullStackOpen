@@ -11,9 +11,7 @@ const requestLogger = (request, response, next)=> {
 
 const unknownEndpoint = (request, response, next) => {
     response.status(404).json({ error: 'unknown endpoint' })
-
   }
-
 
   const errorHandler = (error, request, response, next) => {
     logger.error('we are in error handler')
@@ -22,7 +20,6 @@ const unknownEndpoint = (request, response, next) => {
     } else if (error.name === 'ValidationError') {
       return response.status(400).json({ error: error.message })
     }
-  
     next(error)
   }
   
