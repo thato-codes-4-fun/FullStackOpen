@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router()
+const { trusted } = require('mongoose')
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 
@@ -30,5 +31,11 @@ blogRouter.delete('/:id', async (req,res)=> {
   res.json({success: 'post deleted'})
 })
 
+blogRouter.put('/:id', async (req,res)=> {
+  const id = req.params.id
+  const body = req.body
+  let updated = await Blog.findByIdAndUpdate(id, body, {new: true})
+  res.json({updated: true, blog: updated})
+})
 
 module.exports = blogRouter

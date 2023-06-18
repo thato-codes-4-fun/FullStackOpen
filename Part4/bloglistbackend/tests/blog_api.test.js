@@ -140,11 +140,25 @@ describe('deleting a blog plost',  ()=> {
 
     test('successfully delete an item from db', async ()=> {
         const blogList = await api.get('/api/blogs')
-        console.log(blogList, 'hello bloglist')
         const item = blogList.body[0]
         const id = item.id
         const data = await api.delete(`/api/blogs/${id}`)
         expect(data.body.success).toEqual('post deleted')
+    })
+})
+
+describe('test for updating blogs', ()=> {
+    test('wont update if malformed id', async()=> {
+        const updated = await api.put('/api/blogs/2394894')
+        expect(updated.body.error).toEqual('malformatted id')
+    })
+
+    test('update with proper id upvote to 1', async()=> {
+        const blogs = await api.get('/api/blogs')
+        const blogOne = blogs.body[0]
+        const updated = await api.put(`/api/blogs/${blogOne.id}`).send({upvotes: 1})
+        expect(updated.body.updated).toEqual(true)
+        expect(updated.body.blog.upvotes).toEqual(1)
     })
 })
 
