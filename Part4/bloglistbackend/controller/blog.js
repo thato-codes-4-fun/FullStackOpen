@@ -2,22 +2,23 @@ const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 
-blogRouter.get('/', (req, res)=> {
+blogRouter.get('/', (req, res, next)=> {
     logger.info('getting all blogs')
     Blog
     .find({})
     .then(blogs => {
-      res.json(blogs)
+      res.status(200).json(blogs)
     })
     .catch(e=> {
         logger.info(e.message)
-        res.status(404).json({error: e.message})
+        next(e.message)
+        
     })
 })
 
 blogRouter.get('/:id', (req, res)=> {
     logger.info(`getting blog with id ${req.params.id}`)
-    res.json({working: 'working'})
+    return res.json({working: 'working'})
 
 })
 

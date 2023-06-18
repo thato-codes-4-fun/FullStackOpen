@@ -9,7 +9,6 @@ const requestLogger = (request, response, next)=> {
       logger.info('---')
       next()
     }
-    next()
 }
 
 const unknownEndpoint = (request, response, next) => {
