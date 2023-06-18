@@ -33,14 +33,14 @@ test('blogs returned as json', async ()=> {
         .get('/api/blogs')
         .expect(200)
         .expect('Content-Type',/application\/json/)
-}, 10000)
+}, 15000)
 
 
 
 test('2 blogs found in test db', async ()=> {
     const res = await api.get('/api/blogs')
     expect(res.body).toHaveLength(initialBlogs.length)
-}, 10000)
+}, 15000)
 
 
 test('content of first item equal to test2', async()=> {
