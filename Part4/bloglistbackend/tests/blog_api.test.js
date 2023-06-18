@@ -96,7 +96,6 @@ describe('bad blog post missing data', ()=> {
         let res = await api.post('/api/blogs').send({
             "title": "test4",
             "author": "max verstappen",
-            // "url": "test url 1"
         })
         expect(res.body.error).toBeDefined()
         expect(res.body.error).toEqual('Blog validation failed: url: Path `url` is required.')
@@ -106,7 +105,6 @@ describe('bad blog post missing data', ()=> {
 
     test('bad blog post missing title', async ()=> {
         let res = await api.post('/api/blogs').send({
-            // "title": "test4",
             "author": "max verstappen",
             "url": "test url 1"
         })
@@ -118,7 +116,6 @@ describe('bad blog post missing data', ()=> {
     test('bad blog post missing author', async ()=> {
         let res = await api.post('/api/blogs').send({
             "title": "test4",
-            // "author": "max verstappen",
             "url": "test url 1"
         })
         expect(res.body.error).toBeDefined()
@@ -128,8 +125,27 @@ describe('bad blog post missing data', ()=> {
 
 })
 
-describe('deleting a blog plost', ()=> {
-    
+describe('deleting a blog plost',  ()=> {
+    test('deleting a blog not in db', async()=> {
+        const id = '64874b94b04f8abdbf88306f'
+        const data = await api.delete(`/api/blogs/${id}`)
+        expect(data.body.error).toEqual('no item found')
+    })
+
+    test('trying to delete with a malformed id', async ()=> {
+        const id = '64874b94b0'
+        const data = await api.delete(`/api/blogs/${id}`)
+        expect(data.body.error).toEqual('malformatted id')
+    })
+
+    test('successfully delete an item from db', async ()=> {
+        const blogList = await api.get('/api/blogs')
+        console.log(blogList, 'hello bloglist')
+        const item = blogList.body[0]
+        const id = item.id
+        const data = await api.delete(`/api/blogs/${id}`)
+        expect(data.body.success).toEqual('post deleted')
+    })
 })
 
 
