@@ -10,9 +10,10 @@ app.use(cors())
 app.use(express.json())
 
 const blogRouter = require('./controller/blog')
-
+const userRouter = require('./controller/user')
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use('/api/users', userRouter)
 app.use('/api/blogs', blogRouter)
 
 app.use(middleware.errorHandler)
@@ -21,6 +22,7 @@ app.use(middleware.unknownEndpoint)
 
 logger.info('connecting to mongodb...')
 const mongoUrl = config.MONGODB
+
 
 mongoose.connect(mongoUrl)
 .then(result=> {

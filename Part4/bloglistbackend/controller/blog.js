@@ -1,5 +1,5 @@
 const blogRouter = require('express').Router()
-const { trusted } = require('mongoose')
+// const { trusted } = require('mongoose')
 const Blog = require('../models/blog')
 const logger = require('../utils/logger')
 
