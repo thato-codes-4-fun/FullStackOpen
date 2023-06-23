@@ -40,20 +40,20 @@ describe('testing blog get methods', ()=> {
     }, 15000)
 
 
-test('content of first item equal to test2', async()=> {
-    const res = await api.get('/api/blogs')
-    const content = res.body.map(item => item.title)
-    expect(content).toContain('cool beans')
-}, 10000)
+    test('content of first item equal to test2', async()=> {
+        const res = await api.get('/api/blogs')
+        const content = res.body.map(item => item.title)
+        expect(content).toContain('cool beans')
+    }, 10000)
 
 
-test('item in db contains an id', async()=> {
-    const res = await api.get('/api/blogs')
-    let blog = res.body[0]
-    expect(blog.id).toBeDefined()
-    blog = res.body[1]
-    expect(blog.id).toBeDefined()
-})
+    test('item in db contains an id', async()=> {
+        const res = await api.get('/api/blogs')
+        let blog = res.body[0]
+        expect(blog.id).toBeDefined()
+        blog = res.body[1]
+        expect(blog.id).toBeDefined()
+    })
 
 })
 

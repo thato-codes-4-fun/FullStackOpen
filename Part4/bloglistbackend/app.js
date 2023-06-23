@@ -14,8 +14,9 @@ const blogRouter = require('./controller/blog')
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use('/api/blogs', blogRouter)
-app.use(middleware.unknownEndpoint)
+
 app.use(middleware.errorHandler)
+app.use(middleware.unknownEndpoint)
 
 
 logger.info('connecting to mongodb...')
