@@ -13,14 +13,14 @@ userRouter.post('/', async (req, res)=> {
         username,
         passwordhash,
     })
-    const savedUser = user.save()
-
+    const savedUser = await user.save()
     res.status(200).json(savedUser)
 })
 
-userRouter.get('/', (req, res)=> {
+userRouter.get('/', async(req, res)=> {
+    let users = await UserModel.find({})
     log.info('getting all users')
-    res.status(200).send('working')
+    res.status(200).json(users)
 })
 
 

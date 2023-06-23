@@ -6,11 +6,11 @@ const mongoose = require('mongoose')
 
 const api = supertest(app)
 
-beforeEach(async ()=> {
+beforeEach( async()=> {
     await UserModel.deleteMany({})
     const passwordHash = await bcrypt.hash('password', 10)
     const user = new UserModel({
-        name: 'Thato Boss the ',
+        name: 'Thato',
         username: 'Tito',
         passwordhash: passwordHash
     }, 15000)
@@ -18,8 +18,6 @@ beforeEach(async ()=> {
 })
 
 describe('testing users, 1 user in db already', ()=> {
-
-
     test('creating a new user', async ()=> {
         const user = {
             username: 'flying dutch man',
@@ -33,6 +31,13 @@ describe('testing users, 1 user in db already', ()=> {
         .expect(200)
         .expect('Content-Type', /application\/json/)
     }, 10000)
+})
+
+describe('Testing Users in DB', ()=> {
+    test('can get users', async ()=> {
+        const res = await api.get('/api/users')
+        expect(res.body).toHaveLength(1)
+    },10000)
 })
 
 afterAll(async ()=> {

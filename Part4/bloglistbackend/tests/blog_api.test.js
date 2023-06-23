@@ -4,14 +4,6 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 
-
-const bcrypt = require('bcrypt')
-const UserModel = require('../models/user')
-
-
-
-
-
 const initialBlogs = [
     {
         title: 'cool beans',
@@ -168,35 +160,6 @@ describe('test for updating blogs', ()=> {
         expect(updated.body.blog.upvotes).toEqual(1)
     })
 })
-
-// describe('testing users, 1 user in db already', ()=> {
-//     beforeEach(async ()=> {
-//         await UserModel.deleteMany({})
-//         const passwordHash = await bcrypt.hash('password', 10)
-//         const user = new UserModel({
-//             name: 'Thato Boss',
-//             username: 'Tito',
-//             password: passwordHash
-//         }, 15000)
-//         await user.save()
-//     })
-
-//     test('creating a new user', async ()=> {
-//         const user = {
-//             username: 'flying dutch man',
-//             name: 'max',
-//             password: 'f1champion'
-//         }
-
-//         await api
-//         .post('/api/users')
-//         .send(user)     
-//         //.expect(200)
-//         .expect('Content-Type', /application\/json/)
-//     })
-// })
-
-
 
 afterAll(async ()=> {
     await mongoose.connection.close()
