@@ -8,9 +8,9 @@ const config = require('./utils/config')
 const mongoose = require('mongoose')
 app.use(cors())
 app.use(express.json())
-
-const blogRouter = require('./controller/blog')
 const userRouter = require('./controller/user')
+const blogRouter = require('./controller/blog')
+
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use('/api/users', userRouter)

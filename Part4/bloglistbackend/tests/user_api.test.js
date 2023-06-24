@@ -7,15 +7,16 @@ const mongoose = require('mongoose')
 const api = supertest(app)
 
 beforeEach( async()=> {
+    console.log('delet user')
     await UserModel.deleteMany({})
     const passwordHash = await bcrypt.hash('password', 10)
     const user = new UserModel({
         name: 'Thato',
-        username: 'Tito',
+        username: 'Tito...',
         passwordhash: passwordHash
-    }, 15000)
+    })
     await user.save()
-})
+},15000)
 
 describe('testing users, 1 user in db already', ()=> {
     test('creating a new user', async ()=> {
@@ -30,7 +31,7 @@ describe('testing users, 1 user in db already', ()=> {
         .send(user)     
         .expect(200)
         .expect('Content-Type', /application\/json/)
-    }, 10000)
+    }, 15000)
 })
 
 describe('Testing Users in DB', ()=> {
@@ -38,6 +39,44 @@ describe('Testing Users in DB', ()=> {
         const res = await api.get('/api/users')
         expect(res.body).toHaveLength(1)
     },10000)
+})
+
+
+describe('test user creation', ()=> {
+    test('error when user enters less 3 chars for username',async ()=> {
+        const res = await api.post('/api/users/').send({
+            username: 'th',
+            password: 'hello',
+            name: 'Thato'
+        })
+        expect(res.body.error).toEqual('User validation failed: username: username should be 3 chars long')
+    }, 15000)
+
+    test('error when user enters less 3 chars for password',async ()=> {
+        const res = await api.post('/api/users/').send({
+            username: 'tito',
+            password: 'he',
+            name: 'Thato'
+        })
+        expect(res.body.error).toEqual('password validation failed: password: password should be 3 chars long')
+    }, 15000)
+
+    test('error when user omits username',async ()=> {
+        const res = await api.post('/api/users/').send({
+            password: 'hello',
+            name: 'Thato'
+        })
+        expect(res.body.error).toEqual('User validation failed: username: Path `username` is required.')
+    }, 15000)
+
+    test('error when user omits password',async ()=> {
+        const res = await api.post('/api/users/').send({
+            username: 'King bru',
+            // password: 'hello',
+            name: 'Thato'
+        })
+        expect(res.body.error).toEqual('User validation failed: username: Path `username` is required.')
+    }, 15000)
 })
 
 afterAll(async ()=> {
