@@ -6,6 +6,9 @@ const bcrypt = require('bcrypt')
 userRouter.post('/', async (req, res)=> {
     log.info('creating user...')
     const { name, username, password} = req.body
+    console.log(password)
+    console.log(name)
+    console.log(username)
     if (!password || password.length < 3 ){
         return res.status(400).json({error: 'password validation failed: password: password should be 3 chars long'})
     }
