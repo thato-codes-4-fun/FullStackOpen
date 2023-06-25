@@ -5,6 +5,7 @@ const logger = require('../utils/logger')
 const jwt = require('jsonwebtoken')
 
 
+
 blogRouter.get('/', async (req, res)=> {
    let response = await Blog.find({}).populate('user', {blogs: 0})
    res.status(200).json(response)
@@ -43,11 +44,18 @@ blogRouter.post('/', async (req,res)=> {
 blogRouter.delete('/:id', async (req,res)=> {
   const id = req.params.id
   logger.info('deleting a post', req.params.id)
-  const blog = await Blog.deleteOne({_id: id})
-  if (blog.deletedCount < 1){
-    return res.status(500).json({error: 'no item found'})
+  const tokenID = req.token
+  const decodedToken = jwt.verify(tokenID, process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+  const blogToDelete = await Blog.findById(id)
+  if (user.id === blogToDelete.user.toString()){
+    const blog = await Blog.deleteOne({_id: id})
+    if (blog.deletedCount < 1){
+      return res.status(500).json({error: 'no item found'})
+    }
+    return res.json({success: 'post deleted succesfully'})
   }
-  res.json({success: 'post deleted'})
+  return res.status(400).json({error: "cant delete token not found"})
 })
 
 blogRouter.put('/:id', async (req,res)=> {

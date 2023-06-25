@@ -32,13 +32,8 @@ const extractToken = (req, res, next)=> {
   console.log('somehow extract token')
   const auth = req.get('authorization')
   if (auth && auth.startsWith('Bearer ')){
-    console.log(auth.replace("Bearer ", ''))
-    console.log('before: ',req.token)
     req.token = auth.replace("Bearer ", '')
-    console.log('after: ',req.token)
-
   }
-  console.log('token not found...')
   next()
 }
   
