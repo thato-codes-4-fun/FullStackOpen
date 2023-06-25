@@ -10,9 +10,10 @@ app.use(cors())
 app.use(express.json())
 const userRouter = require('./controller/user')
 const blogRouter = require('./controller/blog')
-
+const loginRouter = require('./controller/login')
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/blogs', blogRouter)
 
