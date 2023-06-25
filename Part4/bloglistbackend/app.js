@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
-app.use('/api/blogs', blogRouter)
+app.use('/api/blogs', middleware.extractUser, blogRouter)
 
 app.use(middleware.errorHandler)
 app.use(middleware.unknownEndpoint)
