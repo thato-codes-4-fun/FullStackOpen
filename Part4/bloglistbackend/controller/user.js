@@ -22,7 +22,7 @@ userRouter.post('/', async (req, res)=> {
 })
 
 userRouter.get('/', async(req, res)=> {
-    let users = await UserModel.find({})
+    let users = await UserModel.find({}).populate('blogs', {url: 1, title: 1, author: 1, id:1})
     log.info('getting all users')
     res.status(200).json(users)
 })

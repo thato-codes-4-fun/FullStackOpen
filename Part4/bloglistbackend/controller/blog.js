@@ -1,11 +1,9 @@
 const blogRouter = require('express').Router()
-// const { trusted } = require('mongoose')
 const Blog = require('../models/blog')
-const User = require(('../models/user'))
 const logger = require('../utils/logger')
 
 blogRouter.get('/', async (req, res)=> {
-   let response = await Blog.find({}).populate('user')
+   let response = await Blog.find({}).populate('user', {blogs: 0})
    res.status(200).json(response)
 })
 
@@ -17,12 +15,8 @@ blogRouter.get('/:id', (req, res)=> {
 
 blogRouter.post('/', async (req,res)=> {
     logger.info('posting new blog...')
-    const users = await User.find({})
-    const user = users[0]
-    console.log("user is ",user)
     const {title, author , url} = req.body
     const blog = new Blog({
-      user,
       title,
       url,
       author
