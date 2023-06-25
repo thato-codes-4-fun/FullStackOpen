@@ -21,11 +21,6 @@ const userSchema = new mongoose.Schema({
           ref: 'Blog'
         }
       ],
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User'
-    //   }
-
 })
 
 userSchema.plugin(uniqueValidator)

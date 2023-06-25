@@ -19,13 +19,33 @@ const unknownEndpoint = (request, response, next) => {
       return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
       return response.status(400).json({ error: error.message })
+    }else if (error.name ===  'JsonWebTokenError') {
+      return response.status(400).json({ error: error.message })
+    }
+    else if (error.name === "TokenExpiredError") {
+      return response.status(400).json({error: "Token Expired"})
     }
     next(error)
   }
+
+const extractToken = (req, res, next)=> {
+  console.log('somehow extract token')
+  const auth = req.get('authorization')
+  if (auth && auth.startsWith('Bearer ')){
+    console.log(auth.replace("Bearer ", ''))
+    console.log('before: ',req.token)
+    req.token = auth.replace("Bearer ", '')
+    console.log('after: ',req.token)
+
+  }
+  console.log('token not found...')
+  next()
+}
   
   module.exports = {
     requestLogger,
     unknownEndpoint,
-    errorHandler
+    errorHandler,
+    extractToken
   }
 
