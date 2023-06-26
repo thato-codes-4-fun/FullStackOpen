@@ -83,6 +83,11 @@ describe('testing blog get methods', ()=> {
 
 
 describe('blog posts tests', ()=> {
+    test('blog post fails if not logged in', async()=> {
+        let failedPost = await api.post('/api/blogs').send(initialBlogs[0])
+        expect(failedPost.body.error).toEqual('jwt must be provided')
+    })
+
     test('check we can make a succesfull post', async ()=> {
         await api.post('/api/blogs').send({
             "title": "test3",
