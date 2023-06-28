@@ -13,14 +13,24 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [success, setSuccess] = useState(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [name, setName] = useState('')
 
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+    const fecthdata = async()=>{
+      try {
+        let blogData = await blogService.getAll(user)
+        console.log(blogData)
+        setBlogs(blogData)
+      } catch (error) {
+        console.log(error)
+        setError('error fetching blogs')
+        setTimeout(()=>setError(null),3000)
+      }
+    }
+    fecthdata()
+  },[user] )
 
   const handleSubmit = async (event)=> {
     event.preventDefault()
@@ -57,7 +67,7 @@ const App = () => {
     <div>
       <SuccessMessage successMessage={success}/>
       <ErrorMessage errorMessage={error}/>
-      <DisplayName name={name}/>
+      
       <LoginForm
         username={username}
         password={password}
@@ -67,9 +77,16 @@ const App = () => {
         user={user}  
       />
       <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <DisplayName name={name}/>
+      {/* will map out blogs if user is present */}
+      {
+        !user? null : blogs.map(blog =>{
+          return (
+            <Blog key={blog.id} blog={blog} />
+          )
+        }
+        )
+      }
     </div>
   )
 }
