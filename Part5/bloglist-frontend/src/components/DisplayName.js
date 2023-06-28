@@ -6,7 +6,7 @@ export default function DisplayName({name}) {
     }
   return (
     <div>
-        <p>{name} has logged in</p>
+        <p>Hi {name} has logged in</p>
     </div>
   )
 }

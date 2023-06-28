@@ -14,7 +14,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
-  const [name, setName] = useState('')
+
 
 
   useEffect(() => {
@@ -32,15 +32,25 @@ const App = () => {
     fecthdata()
   },[user] )
 
+  useEffect(()=>{
+    const storageUser = window.localStorage.getItem('user')
+    if(storageUser){
+      let user = JSON.parse(storageUser)
+      setUser(user)
+    }
+  },[])
+
   const handleSubmit = async (event)=> {
     event.preventDefault()
     console.log('login button pressed')
     try {
       const user = await loginService.login({username, password})
       setUser(user)
+      window.localStorage.setItem(
+        'user', JSON.stringify(user)
+      )
       setUserName('')
       setPassword('')
-      setName(user.name)
       setSuccess('login success...')
       setTimeout(()=> {
         setSuccess(null)
@@ -58,9 +68,17 @@ const App = () => {
   const handleNameChange = ({target})=> {
     setUserName(target.value)
   }
-
+    
   const handlePasswordChange = ({target}) => {
     setPassword(target.value)
+  }
+
+  const handleLogOut = ()=> {
+    console.log('logout pressed...')
+    window.localStorage.clear()
+    setUser(null)
+    setSuccess('user logged out')
+    setTimeout(()=> setSuccess(null),3000)
   }
 
   return (
@@ -77,12 +95,17 @@ const App = () => {
         user={user}  
       />
       <h2>blogs</h2>
-      <DisplayName name={name}/>
+      {!user? null: <DisplayName name={user.name}/>}
+      {user? <button onClick={handleLogOut}>Logout</button> : null}
+      <div></div>
       {/* will map out blogs if user is present */}
       {
         !user? null : blogs.map(blog =>{
           return (
-            <Blog key={blog.id} blog={blog} />
+            <div>
+              <Blog key={blog.id} blog={blog} />
+            </div>
+            
           )
         }
         )
