@@ -6,7 +6,7 @@ export default function SuccessMessage({successMessage}) {
         return null
     }
   return (
-    <div>
+    <div style={{width: '100vw', border: 1, color: 'green'}}>
       <p>{successMessage}</p>
     </div>
   )

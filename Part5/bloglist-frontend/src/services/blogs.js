@@ -9,5 +9,14 @@ const getAll = async(user) => {
   return request.data
 }
 
+const createBlog = async(user, blogObject)=> {
+  console.log('creating a blog')
+  const config = {
+    'headers': {Authorization: `Bearer ${user.token}`}
+  }
+  const request = await axios.post(baseUrl,blogObject, config)
+  return request.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll }
+export default { getAll, createBlog }

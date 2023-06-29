@@ -6,7 +6,7 @@ export default function ErrorMessage({errorMessage}) {
         return null
     }
   return (
-    <div>
+    <div style={{width: '100vw', border: 1, color: 'red'}}>
       <h2>{errorMessage}</h2>
     </div>
   )
