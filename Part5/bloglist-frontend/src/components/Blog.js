@@ -1,7 +1,20 @@
-const Blog = ({blog}) => (
-  <div>
-    <p>{blog.title} {blog.author}</p>
-  </div>  
-)
+import { useState } from "react"
+
+const Blog = ({blog}) => {
+  const [showMore , setShowMore] = useState(false);
+  const showBlogDetails = {display: showMore ? '': 'none'}
+  return (
+    <div>
+      <p>{blog.title} {blog.author} <button onClick={()=> setShowMore(!showMore)}>show more</button></p>
+      <div style={showBlogDetails}>
+          <p>showing details</p>
+          <p>URL: {blog.url}</p>
+          <p>LIKE: {blog.upvotes} <button>Like</button></p>
+          <p>USER: {blog.user.name}</p>
+          <button onClick={()=> setShowMore(!showMore)}>hide details</button>
+      </div>
+    </div>  
+  )
+}
 
 export default Blog
