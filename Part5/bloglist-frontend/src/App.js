@@ -6,6 +6,7 @@ import LoginForm from './components/LoginFormComp'
 import SuccessMessage from './components/SuccessMessage'
 import ErrorMessage from './components/ErrorMessage'
 import DisplayName from './components/DisplayName'
+import CreateBlogForm from './components/CreateBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
+  const [loginIsVisible, setLoginIsVisible ] = useState(false)
+  const [showBlogForm, setShowBlogForm] = useState(false)
 
 
   useEffect(()=>{
@@ -40,6 +43,7 @@ const App = () => {
     }
     fecthdata()
   },[user] )
+
 
 
 
@@ -136,42 +140,22 @@ const App = () => {
         handlePasswordChange={handlePasswordChange}   
         handleSubmit={handleSubmit}
         user={user}  
+        loginIsVisible={loginIsVisible}
+        setLoginIsVisible={setLoginIsVisible}
       />
       <h2>blogs</h2>
       {!user? null: <DisplayName name={user.name}/>}
       {user? <button onClick={handleLogOut}>Logout</button> : null}
       {
         !user? null :
-        <div>
-          <h3>Create new Blog</h3>
-          <form onSubmit={handleCreateBlog}>
-            <div>
-              Author:
-              <input 
-                onChange={handleAuthorChange}
-                value={author}
-                type='text'
-              />
-            </div>
-            <div>
-              Title:
-              <input
-                onChange={handleTitleChange} 
-                value={title}
-                type='text'
-              />
-            </div>
-            <div>
-              Url:
-              <input
-                onChange={handleUrlChange} 
-                value={url}
-                type='text'
-              />
-            </div>
-            <button type='submit'>submit</button>
-          </form>
-        </div>
+        <CreateBlogForm
+          handleAuthorChange={handleAuthorChange}
+          handleTitleChange={handleTitleChange}
+          handleUrlChange={handleUrlChange}
+          handleCreateBlog={handleCreateBlog}
+          showBlogForm={showBlogForm}
+          setShowBlogForm={setShowBlogForm}
+        />
 
       }
       {/* will map out blogs if user is present */}
