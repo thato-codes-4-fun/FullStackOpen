@@ -1,6 +1,6 @@
 
 
-const  LoginFormComp = ({
+const  LoginForm = ({
     handleNameChange, 
     handleSubmit,
     username,
@@ -15,7 +15,6 @@ const  LoginFormComp = ({
     const hideWhenVisible =  {display: loginIsVisible ? 'none': '' }
    
 
-        
     if (user){
         return null
     }
@@ -56,4 +55,4 @@ const  LoginFormComp = ({
   )
 }
 
-export default LoginFormComp
+export default LoginForm
