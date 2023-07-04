@@ -156,7 +156,7 @@ const App = () => {
       {
         !user? null : blogs.map(blog =>{
           return (
-              <Blog key={blog.id} blog={blog} />
+              <Blog key={blog.id} blog={blog} user={user}/>
             )
         }
         )

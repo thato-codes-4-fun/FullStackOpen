@@ -1,8 +1,9 @@
 import { useState } from "react"
 
-const Blog = ({blog}) => {
+const Blog = ({blog, user}) => {
   const [showMore , setShowMore] = useState(false);
   const showBlogDetails = {display: showMore ? '': 'none'}
+
   return (
     <div>
       <p>{blog.title} {blog.author} <button onClick={()=> setShowMore(!showMore)}>show more</button></p>
@@ -10,7 +11,7 @@ const Blog = ({blog}) => {
           <p>showing details</p>
           <p>URL: {blog.url}</p>
           <p>LIKE: {blog.upvotes} <button>Like</button></p>
-          <p>USER: {blog.user.name}</p>
+          <p>USER: {user.name}</p>
           <button onClick={()=> setShowMore(!showMore)}>hide details</button>
       </div>
     </div>  
