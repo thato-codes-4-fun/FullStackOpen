@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function CreateBlogForm({
   handleCreateBlog,
@@ -7,10 +7,9 @@ export default function CreateBlogForm({
   handleTitleChange,
   title,
   handleUrlChange,
-  showBlogForm,
-  setShowBlogForm,
   url
 }) {
+  const [showBlogForm, setShowBlogForm]= useState(false)
   const showForm = {display: showBlogForm? '': 'none'}
   const hideForm = {display: showBlogForm? 'none': ''}
   return (

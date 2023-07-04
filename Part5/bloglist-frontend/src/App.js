@@ -18,8 +18,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
-  const [loginIsVisible, setLoginIsVisible ] = useState(false)
-  const [showBlogForm, setShowBlogForm] = useState(false)
 
 
   useEffect(()=>{
@@ -140,8 +138,6 @@ const App = () => {
         handlePasswordChange={handlePasswordChange}   
         handleSubmit={handleSubmit}
         user={user}  
-        loginIsVisible={loginIsVisible}
-        setLoginIsVisible={setLoginIsVisible}
       />
       <h2>blogs</h2>
       {!user? null: <DisplayName name={user.name}/>}
@@ -153,8 +149,6 @@ const App = () => {
           handleTitleChange={handleTitleChange}
           handleUrlChange={handleUrlChange}
           handleCreateBlog={handleCreateBlog}
-          showBlogForm={showBlogForm}
-          setShowBlogForm={setShowBlogForm}
         />
 
       }

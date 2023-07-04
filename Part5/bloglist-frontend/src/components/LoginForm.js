@@ -1,4 +1,4 @@
-
+import { useState } from "react"
 
 const  LoginForm = ({
     handleNameChange, 
@@ -7,13 +7,13 @@ const  LoginForm = ({
     password,
     handlePasswordChange,
     user,
-    loginIsVisible,
-    setLoginIsVisible
+ 
 
     }) => {
+
+    const [loginIsVisible, setLoginIsVisible] = useState(false)
     const showWhenVisible = {display: loginIsVisible ? '': 'none'}
     const hideWhenVisible =  {display: loginIsVisible ? 'none': '' }
-   
 
     if (user){
         return null
