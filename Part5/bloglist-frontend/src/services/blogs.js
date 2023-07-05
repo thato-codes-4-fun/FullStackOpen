@@ -18,5 +18,22 @@ const createBlog = async(user, blogObject)=> {
   return request.data
 }
 
+const updateLikes = async (user , blogObject)=> {
+  console.log('updating likes')
+  const config = {
+    'headers': {Authorization: `Bearer ${user.token}`}
+  }
+  const blogID = blogObject.id
+  const newBlog = {
+      "id":  blogID,
+      "author": blogObject.author,
+      "url": blogObject.url,
+      "title": blogObject.title,
+      "upvotes": blogObject.upvotes+=1
+  }
+  const response = await axios.put(baseUrl+'/'+blogID, newBlog,config)
+  return response.data.blog
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, createBlog }
+export default { getAll, createBlog , updateLikes}

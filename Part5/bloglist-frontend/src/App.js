@@ -96,6 +96,7 @@ const App = () => {
       }
       let newBlog = await blogService.createBlog(user, blogData)
       setAuthor('')
+      console.log(author)
       setTitle('')
       setUrl('')
       setBlogs([...blogs, newBlog ])
@@ -126,11 +127,16 @@ const App = () => {
     setUrl(target.value)
   }
 
+  const handleBlogLike = async(user, blogObj)=> {
+    await blogService.updateLikes(user, blogObj)
+    setSuccess('post updated')
+    setTimeout(()=> setSuccess(null),3000)
+  }
+
   return (
     <div>
       <SuccessMessage successMessage={success}/>
       <ErrorMessage errorMessage={error}/>
-      
       <LoginForm
         username={username}
         password={password}
@@ -156,7 +162,7 @@ const App = () => {
       {
         !user? null : blogs.map(blog =>{
           return (
-              <Blog key={blog.id} blog={blog} user={user}/>
+              <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike}/>
             )
         }
         )
