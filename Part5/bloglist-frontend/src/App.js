@@ -12,9 +12,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const [author, setAuthor] = useState('')
-  const [title, setTitle] = useState('')
-  const [url, setUrl] = useState('')
+  const [author, setAuthor] = useState(null)
+  const [title, setTitle] = useState(null)
+  const [url, setUrl] = useState(null)
   const [user, setUser] = useState(null)
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
@@ -95,10 +95,11 @@ const App = () => {
         url
       }
       let newBlog = await blogService.createBlog(user, blogData)
-      setAuthor('')
+      setAuthor(null)
       console.log(author)
-      setTitle('')
-      setUrl('')
+      setTitle(null)
+      console.log(title, 'set to null')
+      setUrl(null)
       setBlogs([...blogs, newBlog ])
       setSuccess('user added...')
       setTimeout(()=> {
@@ -128,9 +129,33 @@ const App = () => {
   }
 
   const handleBlogLike = async(user, blogObj)=> {
-    await blogService.updateLikes(user, blogObj)
-    setSuccess('post updated')
-    setTimeout(()=> setSuccess(null),3000)
+    try {
+      await blogService.updateLikes(user, blogObj)
+      setSuccess('post updated')
+      setTimeout(()=> setSuccess(null),3000)
+    } catch (error) {
+      setError('error: ', error)
+      setTimeout(()=>setError(null),3000)
+    }
+    
+  }
+
+  const handleDeleteBlog = async (user, blogID)=> {
+    try {
+      const shouldDelete = window.confirm('are you sure you want to delete')
+      console.log('deleting...', shouldDelete)
+      if(shouldDelete){
+        await blogService.deleteBlog(user, blogID)
+        setSuccess('blog deleted')
+        const newBlogList = await blogService.getAll(user)
+        setBlogs(newBlogList)
+        setTimeout(()=> setSuccess(null),3000)
+      }
+    } catch (error) {
+      console.log(error.response.data)
+      setError(error.response.data.error)
+      setTimeout(()=>setError(null),3000)
+    }
   }
 
   return (
@@ -163,7 +188,7 @@ const App = () => {
         
         !user? null : blogs.sort((a,b)=> a.upvotes -b.upvotes).map(blog =>{
           return (
-              <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike}/>
+              <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog}/>
             )
         }
         )
