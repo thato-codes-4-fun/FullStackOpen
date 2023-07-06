@@ -159,8 +159,9 @@ const App = () => {
 
       }
       {/* will map out blogs if user is present */}
-      {
-        !user? null : blogs.map(blog =>{
+      { 
+        
+        !user? null : blogs.sort((a,b)=> a.upvotes -b.upvotes).map(blog =>{
           return (
               <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike}/>
             )
