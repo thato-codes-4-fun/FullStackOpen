@@ -4,9 +4,9 @@ const Blog = ({ blog, user, handleBlogLike, handleDeleteBlog }) => {
     const [showMore , setShowMore] = useState(false)
     const showBlogDetails = { display: showMore ? '': 'none' }
     return (
-        <div>
-            <p>{blog.title} {blog.author} <button onClick={ () => setShowMore(!showMore)}>show more</button></p>
-            <div style={showBlogDetails}>
+        <div className='blogComponent'>
+            <p className='blogHeading'>{blog.title} {blog.author} <button onClick={ () => setShowMore(!showMore)}>show more</button></p>
+            <div style={showBlogDetails} className='blogDetails'>
                 <p>showing details</p>
                 <p>URL: {blog.url}</p>
                 <p>LIKE: {blog.upvotes} <button onClick={ () => handleBlogLike(user, blog)}>Like</button></p>
