@@ -18,6 +18,7 @@ const App = () => {
     const [user, setUser] = useState(null)
     const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
+    const [showMore , setShowMore] = useState(false)
 
 
     useEffect( () => {
@@ -42,7 +43,9 @@ const App = () => {
         fecthdata()
     },[user] )
 
-
+    const handleShowMore = () => {
+        setShowMore(!showMore)
+    }
 
 
     const handleSubmit = async (event) => {
@@ -184,7 +187,7 @@ const App = () => {
             {
                 !user? null : blogs.sort((a,b) => a.upvotes -b.upvotes).map(blog => {
                     return (
-                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog}/>
+                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog} showMore={showMore} handleShowMore={handleShowMore}/>
                     )
                 })
             }
