@@ -50,6 +50,29 @@ describe('test when show details is clicked more blog details displayed', () => 
     })
 })
 
+describe('test user can press like button', () => {
+    test('user can click like twice', async() => {
+        const blog = {
+            title: 'testing',
+            author: 'mr test',
+            url: 'www.testing.com',
+            upvotes: 1,
+        }
+        const userblog = {
+            name: 'tester'
+        }
+        const mockHandler = jest.fn()
+        const user = userEvent.setup()
+        render(<Blog blog={blog} user={userblog} handleBlogLike={mockHandler}/>)
+        const button = screen.getByText('Like')
+        expect(button).toBeDefined()
+        await user.click(button)
+        await user.click(button)
+        expect(mockHandler.mock.calls).toHaveLength(2)
+
+    })
+})
+
 
 
 
