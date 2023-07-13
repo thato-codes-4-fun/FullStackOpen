@@ -12,12 +12,12 @@ const App = () => {
     const [blogs, setBlogs] = useState([])
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const [author, setAuthor] = useState('')
-    const [title, setTitle] = useState('')
-    const [url, setUrl] = useState('')
+
     const [user, setUser] = useState(null)
     const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
+    const [showMore , setShowMore] = useState(false)
+
 
     useEffect( () => {
         const storageUser = window.localStorage.getItem('user')
@@ -34,13 +34,16 @@ const App = () => {
                 setBlogs(blogData)
             } catch (error) {
                 console.log(error)
-                setError('error fetching blogs')
+                setError('error no user found')
                 setTimeout(() => setError(null),3000)
             }
         }
         fecthdata()
     },[user] )
 
+    const handleShowMore = () => {
+        setShowMore(!showMore)
+    }
 
 
     const handleSubmit = async (event) => {
@@ -83,18 +86,9 @@ const App = () => {
         setTimeout(() => setSuccess(null),3000)
     }
 
-    const handleCreateBlog = async(event) => {
-        event.preventDefault()
+    const handleCreateBlog = async(blogData) => {
         try {
-            const blogData = {
-                author,
-                title,
-                url
-            }
             let newBlog = await blogService.createBlog(user, blogData)
-            setAuthor('')
-            setTitle('')
-            setUrl('')
             setBlogs([...blogs, newBlog ])
             setSuccess('user added...')
             setTimeout(() => {
@@ -111,17 +105,7 @@ const App = () => {
         }
     }
 
-    const handleAuthorChange = ({ target }) => {
-        setAuthor(target.value)
-    }
 
-    const handleTitleChange = ({ target }) => {
-        setTitle(target.value)
-    }
-
-    const handleUrlChange = ({ target }) => {
-        setUrl(target.value)
-    }
 
     const handleBlogLike = async(user, blogObj) => {
         try {
@@ -170,9 +154,6 @@ const App = () => {
             {
                 !user? null :
                     <CreateBlogForm
-                        handleAuthorChange={handleAuthorChange}
-                        handleTitleChange={handleTitleChange}
-                        handleUrlChange={handleUrlChange}
                         handleCreateBlog={handleCreateBlog}
                     />
             }
@@ -180,7 +161,7 @@ const App = () => {
             {
                 !user? null : blogs.sort((a,b) => a.upvotes -b.upvotes).map(blog => {
                     return (
-                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog} />
+                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog} showMore={showMore} handleShowMore={handleShowMore}/>
                     )
                 })
             }

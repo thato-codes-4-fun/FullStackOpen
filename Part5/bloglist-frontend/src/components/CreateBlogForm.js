@@ -2,16 +2,39 @@ import React, { useState } from 'react'
 
 export default function CreateBlogForm({
     handleCreateBlog,
-    handleAuthorChange,
-    author,
-    handleTitleChange,
-    title,
-    handleUrlChange,
-    url
 }) {
     const [showBlogForm, setShowBlogForm]= useState(false)
     const showForm = { display: showBlogForm? '': 'none' }
     const hideForm = { display: showBlogForm? 'none': '' }
+    const [author, setAuthor] = useState('')
+    const [title, setTitle] = useState('')
+    const [url, setUrl] = useState('')
+
+    const handleAuthorChange = ({ target }) => {
+        setAuthor(target.value)
+    }
+
+    const handleTitleChange = ({ target }) => {
+        setTitle(target.value)
+    }
+
+    const handleUrlChange = ({ target }) => {
+        setUrl(target.value)
+    }
+
+    const handleSubmitBlog = (e) => {
+        e.preventDefault()
+        const blogData = {
+            title,
+            author,
+            url
+        }
+        handleCreateBlog(blogData)
+        setAuthor('')
+        setTitle('')
+        setUrl('')
+    }
+
     return (
         <div>
             <div style={hideForm}>
@@ -22,7 +45,7 @@ export default function CreateBlogForm({
             </div>
             <div style={showForm}>
                 <h3>Create new Blog</h3>
-                <form onSubmit={handleCreateBlog}>
+                <form onSubmit={handleSubmitBlog}>
                     <div>
                       Author:
                         <input
