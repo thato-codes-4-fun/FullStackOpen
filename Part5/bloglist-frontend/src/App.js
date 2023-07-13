@@ -12,14 +12,12 @@ const App = () => {
     const [blogs, setBlogs] = useState([])
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const [author, setAuthor] = useState(null)
-    const [title, setTitle] = useState(null)
-    const [url, setUrl] = useState(null)
+    const [author, setAuthor] = useState('')
+    const [title, setTitle] = useState('')
+    const [url, setUrl] = useState('')
     const [user, setUser] = useState(null)
     const [success, setSuccess] = useState(null)
     const [error, setError] = useState(null)
-    const [showMore , setShowMore] = useState(false)
-
 
     useEffect( () => {
         const storageUser = window.localStorage.getItem('user')
@@ -43,9 +41,6 @@ const App = () => {
         fecthdata()
     },[user] )
 
-    const handleShowMore = () => {
-        setShowMore(!showMore)
-    }
 
 
     const handleSubmit = async (event) => {
@@ -97,11 +92,9 @@ const App = () => {
                 url
             }
             let newBlog = await blogService.createBlog(user, blogData)
-            setAuthor(null)
-            console.log(author)
-            setTitle(null)
-            console.log(title, 'set to null')
-            setUrl(null)
+            setAuthor('')
+            setTitle('')
+            setUrl('')
             setBlogs([...blogs, newBlog ])
             setSuccess('user added...')
             setTimeout(() => {
@@ -187,7 +180,7 @@ const App = () => {
             {
                 !user? null : blogs.sort((a,b) => a.upvotes -b.upvotes).map(blog => {
                     return (
-                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog} showMore={showMore} handleShowMore={handleShowMore}/>
+                        <Blog key={blog.id} blog={blog} user={user} handleBlogLike={handleBlogLike} handleDeleteBlog={handleDeleteBlog} />
                     )
                 })
             }
