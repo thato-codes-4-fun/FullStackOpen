@@ -41,8 +41,11 @@ describe('test when show details is clicked more blog details displayed', () => 
         expect(div).toHaveStyle('display: none')
         const button = screen.getByText('show more')
         expect(button).toBeDefined()
+
         await user.click(button)
-        expect(mockHandler.mock.calls).toHaveLength(1)
+        const button1 = screen.getByText('hide')
+        expect(button1).toBeDefined()
+        expect(div).toHaveStyle('display: block')
         const like = screen.getByText('LIKE: 1')
         expect(like).toBeDefined()
         const blogUser = screen.getByText('USER: tester')
